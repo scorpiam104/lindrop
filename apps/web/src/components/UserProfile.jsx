@@ -1,0 +1,10 @@
+import { UserCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { getMerchant } from '../lib/session';
+import CreateStoreModal from './CreateStoreModal.jsx';
+import CustomerSpendingChart from './CustomerSpendingChart.jsx';
+
+export default function UserProfile() {
+  const merchant = getMerchant(); const [open, setOpen] = useState(false);
+  return <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.12),_transparent_30%),#f8fafc] px-5 py-8 text-slate-900 sm:px-8"><div className="mx-auto max-w-3xl"><header className="mb-8"><p className="text-[10px] font-black uppercase tracking-widest text-[#2563EB]">Account</p><h1 className="mt-2 text-4xl font-black">Your profile</h1></header><section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] sm:p-8"><div className="flex items-center gap-4"><UserCircle2 className="text-[#1E3A8A]" size={52} /><div><h2 className="text-2xl font-black">{merchant?.firstName || 'Your'} {merchant?.surname || 'profile'}</h2><p className="text-sm text-slate-500">{merchant?.email || 'No email available'}</p></div></div><div className="mt-7 grid gap-3 sm:grid-cols-2"><div className="rounded-xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-widest text-slate-400">Role</p><p className="mt-2 font-black">{merchant?.role || 'customer'}</p></div><div className="rounded-xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-widest text-slate-400">Store status</p><p className="mt-2 font-black">{merchant?.status || 'No store registered'}</p></div></div><button onClick={() => setOpen(true)} className="mt-7 rounded-xl bg-[#1E3A8A] px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-[#2563EB]">Register a Store</button></section><CustomerSpendingChart /></div><CreateStoreModal open={open} onClose={() => setOpen(false)} /></main>;
+}

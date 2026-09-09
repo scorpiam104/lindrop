@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #2457d6;
+  --color-primary-hover: #3c6ee8;
+  --color-secondary: #ef765d;
+  --color-secondary-dark: #c85642;
+  --color-background: #f4f7fc;
+  --color-surface: #ffffff;
+  --color-ink: #101a34;
+  --color-muted: #69748a;
+  --color-line: #dce3f0;
+  font-family: 'DM Sans', ui-sans-serif, sans-serif;
+  color: var(--color-ink);
+  background: var(--color-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(36, 87, 214, 0.15), transparent 25%),
+    radial-gradient(circle at 100% 100%, rgba(239, 118, 93, 0.12), transparent 28%),
+    var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6, button, nav, [class*="font-black"] {
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+}
+
+::selection {
+  color: #fffdf8;
+  background: var(--color-primary);
+}
+
+button {
+  cursor: pointer;
+}
+
+button, input, select, textarea {
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease, opacity 180ms ease, transform 180ms ease;
+}
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-step-in {
+  animation: stepIn 240ms ease-out;
+}
+
+/* Keep legacy utility names visually aligned while older screens migrate. */
+.text-emerald-400, .text-emerald-500, .text-emerald-600, .text-emerald-700, .text-emerald-800, .text-emerald-900 { color: var(--color-primary) !important; }
+.bg-emerald-50, .bg-emerald-100 { background-color: #e8efff !important; }
+.bg-emerald-400, .bg-emerald-500, .bg-emerald-600, .bg-emerald-700 { background-color: var(--color-primary-hover) !important; }
+.border-emerald-100, .border-emerald-200, .border-emerald-300, .border-emerald-500 { border-color: #c4d3f5 !important; }
+.ring-emerald-100 { --tw-ring-color: #d8e3ff !important; }
+.shadow-emerald-100, .shadow-emerald-500\/20, .shadow-emerald-500\/30 { --tw-shadow-color: rgba(36, 87, 214, 0.2) !important; }
+.hover\:bg-emerald-100:hover, .hover\:bg-emerald-200:hover, .hover\:bg-emerald-500:hover, .hover\:bg-emerald-600:hover, .hover\:bg-emerald-700:hover { background-color: var(--color-primary) !important; }
+.hover\:border-emerald-300:hover, .hover\:border-emerald-500:hover { border-color: var(--color-primary-hover) !important; }
+.hover\:text-emerald-700:hover, .hover\:text-emerald-900:hover { color: var(--color-primary) !important; }
+[class*="16,185,129"] { background-image: radial-gradient(circle at top, rgba(36, 87, 214, 0.14), transparent 30%) !important; }
+
+/* Keep older screens on the same palette while their utility classes migrate. */
+[class*="bg-[#1E3A8A]"], [class*="bg-[#0F172A]"], [class*="bg-slate-900"] { background-color: var(--color-ink) !important; }
+[class*="bg-[#2563EB]"], [class*="hover:bg-[#2563EB]"]:hover { background-color: var(--color-primary) !important; }
+[class*="bg-[#F8FAFC]"], [class*="bg-[#f8fafc]"] { background-color: var(--color-background) !important; }
+[class*="text-[#1E3A8A]"], [class*="text-[#2563EB]"], [class*="text-blue-"] { color: var(--color-primary) !important; }
+[class*="text-[#F59E0B]"], [class*="text-amber-"] { color: var(--color-secondary) !important; }
+[class*="bg-[#F59E0B]"], [class*="bg-amber-"] { background-color: var(--color-secondary) !important; }
+[class*="border-slate-200"] { border-color: var(--color-line) !important; }
+
+.landing-page {
+  background:
+    linear-gradient(115deg, rgba(36, 87, 214, 0.06), transparent 42%),
+    linear-gradient(180deg, #f4f7fc 0%, #ffffff 58%, #f8f4f1 100%) !important;
+}
+
+.landing-page > nav {
+  border-bottom: 1px solid rgba(220, 227, 240, 0.8);
+}
+
+.landing-page > section:first-of-type {
+  position: relative;
+}
+
+.landing-page > section:first-of-type::before {
+  position: absolute;
+  top: 2rem;
+  right: 5%;
+  width: 14rem;
+  height: 14rem;
+  border: 1px solid rgba(36, 87, 214, 0.16);
+  border-radius: 3rem;
+  content: '';
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.landing-page h1 {
+  color: var(--color-ink) !important;
+}
+
+.landing-page > nav a[href="/signup"],
+.landing-page > section:first-of-type a[href="/signup"] {
+  font-size: 0;
+}
+
+.landing-page > nav a[href="/signup"]::after,
+.landing-page > section:first-of-type a[href="/signup"]::after {
+  content: 'Get started';
+  font-size: 0.875rem;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(37, 99, 235, 0.16); }
+  50% { box-shadow: 0 0 26px rgba(37, 99, 235, 0.24); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.6s ease-in-out infinite;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.55), rgba(255,255,255,0.12));
+  background-size: 200% 100%;
+  animation: shimmer 2.2s linear infinite;
+}
+
+.soft-shadow {
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.08);
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Render the supplied LinkPay artwork wherever the app uses its home wordmark. */
+a[href="/"] {
+  display: inline-block;
+  width: 148px;
+  height: 50px;
+  overflow: hidden;
+  background: url('/linkpay-logo.svg') center / contain no-repeat;
+  font-size: 0 !important;
+  line-height: 0;
+}
+
+a[href="/"] > * {
+  display: none;
+}
+
+aside a[href="/dashboard"]:first-child {
+  width: 148px;
+  height: 50px;
+  overflow: hidden;
+  background: url('/linkpay-logo.svg') center / contain no-repeat;
+  font-size: 0 !important;
+  line-height: 0;
+}
+
+aside a[href="/dashboard"]:first-child > * {
+  display: none;
+}

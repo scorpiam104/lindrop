@@ -1,0 +1,16 @@
+{
+  "name": "my-app-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n backend,web,mobile \"npm run dev:backend\" \"npm run dev:web\" \"npm run dev:mobile\"",
+    "dev:backend": "npm --prefix apps/backend run dev",
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:mobile": "npm --prefix apps/mobile run dev",
+    "install:all": "npm install && npm --prefix apps/backend install && npm --prefix apps/web install && npm --prefix apps/mobile install",
+    "build": "npm --prefix apps/web run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
