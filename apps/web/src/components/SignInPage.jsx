@@ -29,7 +29,7 @@ export default function SignInPage() {
     }
 
     if (params.get('oauth') === 'success' && params.get('token')) {
-      try { saveSession({ token: params.get('token'), merchant: JSON.parse(decodeURIComponent(params.get('merchant') || '{}')) }); navigate('/profile', { replace: true }); } catch { setError('OAuth sign-in succeeded, but the session could not be restored.'); }
+      try { saveSession({ token: params.get('token'), merchant: JSON.parse(decodeURIComponent(params.get('merchant') || '{}')) }); navigate('/marketplace', { replace: true }); } catch { setError('OAuth sign-in succeeded, but the session could not be restored.'); }
     } else if (params.get('oauth') === 'error') setError(decodeURIComponent(params.get('message') || 'Social login failed.'));
   }, [navigate]);
 
@@ -37,7 +37,7 @@ export default function SignInPage() {
     event.preventDefault(); setError(''); setCanCreateAccount(false);
     if (!form.email || !form.password) return setError('Enter your email and password.');
     setLoading(true);
-    try { const { data } = await apiClient.post('/auth/login', { ...form, email: form.email.trim() }); saveSession(data); navigate('/profile'); } catch (requestError) {
+    try { const { data } = await apiClient.post('/auth/login', { ...form, email: form.email.trim() }); saveSession(data); navigate('/marketplace'); } catch (requestError) {
       const payload = requestError.response?.data || {};
       if (payload.code === 'EMAIL_NOT_FOUND') {
         setCanCreateAccount(true);

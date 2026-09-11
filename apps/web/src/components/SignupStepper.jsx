@@ -51,7 +51,7 @@ export default function SignupStepper() {
   async function submit(event) {
     event.preventDefault(); const message = validateStep(); if (message) return setError(message);
     setLoading(true); setError('');
-    try { const { data } = await apiClient.post('/auth/register', form); saveSession(data); navigate('/profile'); } catch (requestError) {
+    try { const { data } = await apiClient.post('/auth/register', form); saveSession(data); navigate('/marketplace'); } catch (requestError) {
       const payload = requestError.response?.data || {};
       if (payload.redirectToLogin) {
         const email = payload.existingAccount?.email || form.email;

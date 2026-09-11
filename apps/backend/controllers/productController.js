@@ -22,6 +22,29 @@ async function getStoreProducts(req, res) {
   return res.json(await Product.find({ merchantId: merchant._id, inventoryCount: { $gt: 0 } }).sort({ createdAt: -1 }).lean());
 }
 
+async function getMarketplaceProducts(req, res) {
+  const merchants = await Merchant.find({ isSuspended: false, isVerified: true, slug: { $nin: [null, ''] } })
+    .select('_id businessName storeName slug logoUrl')
+    .lean();
+  const merchantById = new Map(merchants.map((merchant) => [String(merchant._id), merchant]));
+  const products = await Product.find({ merchantId: { $in: merchants.map((merchant) => merchant._id) }, inventoryCount: { $gt: 0 } })
+    .sort({ createdAt: -1 })
+    .limit(60)
+    .lean();
+
+  return res.json({
+    products: products.map((product) => {
+      const merchant = merchantById.get(String(product.merchantId));
+      return {
+        ...product,
+        storeName: merchant.storeName || merchant.businessName || 'Independent store',
+        storeSlug: merchant.slug,
+        storeLogoUrl: merchant.logoUrl || ''
+      };
+    })
+  });
+}
+
 async function getProduct(req, res) {
   if (!mongoose.isValidObjectId(req.params.productId)) return res.status(404).json({ message: 'Product not found.' });
   const product = await Product.findById(req.params.productId).lean();
@@ -31,4 +54,4 @@ async function getProduct(req, res) {
   return res.json(product);
 }
 
-module.exports = { createProduct, getProduct, getStoreProducts, listProducts };
+module.exports = { createProduct, getMarketplaceProducts, getProduct, getStoreProducts, listProducts };

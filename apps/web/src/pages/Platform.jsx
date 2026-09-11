@@ -102,7 +102,7 @@ export function AuthPage({ mode }) {
         const parsedMerchant = JSON.parse(decodeURIComponent(merchant || '{}'));
         saveSession({ token, merchant: parsedMerchant });
         window.history.replaceState({}, '', '/login');
-        navigate('/dashboard', { replace: true });
+        navigate('/marketplace', { replace: true });
       } catch (oauthError) {
         setError('OAuth sign-in was successful, but the session could not be restored.');
       }
@@ -132,7 +132,7 @@ export function AuthPage({ mode }) {
       const payload = isSignup ? { ...form } : { email: form.email, password: form.password };
       const { data } = await apiClient.post(`/auth/${isSignup ? 'register' : 'login'}`, payload);
       saveSession(data);
-      navigate('/dashboard');
+      navigate('/marketplace');
     } catch (err) {
       setError(err.response?.data?.message || 'Unable to authenticate.');
     } finally {

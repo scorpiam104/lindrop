@@ -7,6 +7,7 @@ import SignupStepper from './components/SignupStepper.jsx';
 import SignInPage from './components/SignInPage.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import LandingPage from './components/LandingPage.jsx';
+import Marketplace from './components/Marketplace.jsx';
 import AdminAnalyticsDashboard from './components/AdminAnalyticsDashboard.jsx';
 import MerchantDashboard from './components/MerchantDashboard.jsx';
 import { AdminMerchants, AdminOverview, AuthPage, DynamicCheckout, Landing, Orders, Overview, Products, ProfilePage, Storefront, StoreSetup } from './pages/Platform.jsx';
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<SignInPage />} />
         <Route path="/signup" element={<SignupStepper />} />
+        <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/store/:storeSlug" element={<StoreFront />} />
         <Route path="/store/:storeSlug/checkout/:productId" element={<DynamicCheckout />} />
         <Route element={<ProtectedRoute />}>
