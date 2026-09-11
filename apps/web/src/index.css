@@ -277,6 +277,16 @@ main.flex.min-h-screen.items-center.justify-center input { border-color: rgba(16
 .theme-toggle-single { width: 36px; height: 36px; justify-content: center; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.08); box-shadow: 0 8px 22px var(--primary-glow); }
 .theme-toggle-single.theme-toggle-compact { width: 32px; height: 32px; }
 .theme-toggle-single:hover { color: #07111f; background: #5ee7f4; }
+:root[data-theme='light'] .theme-toggle-single { color: #2563eb; }
+:root[data-theme='dark'] .theme-toggle-single { color: #60a5fa; }
+.account-shortcuts { position: fixed; right: 68px; bottom: 20px; z-index: 50; display: flex; align-items: center; gap: 8px; }
+.account-shortcuts .profile-shortcut { position: static; }
+.profile-shortcut { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--glass-border); border-radius: 999px; padding: 9px 13px; color: var(--foreground); background: var(--glass-background); box-shadow: var(--glass-shadow); backdrop-filter: blur(var(--glass-blur)); font-size: .75rem; font-weight: 700; }
+.auth-route-content main > section > a[href="/"] { width: 112px; height: 38px; background-size: contain; }
+.profile-shortcut:hover { border-color: var(--primary); color: var(--primary); background: var(--glass-background-hover); transform: translateY(-2px); }
+.user-avatar { display: inline-flex; width: 38px; height: 38px; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,.72); border-radius: 50%; color: white; background: linear-gradient(135deg, #312080, #8d68ff 55%, #ff876d); box-shadow: 0 8px 22px var(--primary-glow); font-family: 'Space Grotesk', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .02em; transition: transform 180ms ease, box-shadow 180ms ease; }
+.user-avatar:hover { box-shadow: 0 12px 30px var(--primary-glow); transform: translateY(-2px) scale(1.04); }
+.user-avatar-compact { width: 32px; height: 32px; font-size: .64rem; }
 :root[data-theme='light'] .modern-surface { color: #102336; background: #eef5f8; }
 :root[data-theme='light'] .modern-surface::before { background: radial-gradient(circle at 12% 8%, rgba(94,231,244,.22), transparent 28%), radial-gradient(circle at 88% 16%, rgba(255,135,109,.16), transparent 24%), linear-gradient(135deg, #eef8fb 0%, #f8fbfd 48%, #fff8f4 100%); }
 :root[data-theme='light'] .modern-surface::after { background-image: linear-gradient(rgba(35,91,116,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(35,91,116,.06) 1px, transparent 1px); }
