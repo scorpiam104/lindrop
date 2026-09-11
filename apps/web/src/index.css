@@ -330,6 +330,29 @@ body[data-theme='light'] .modern-surface .text-slate-400, body[data-theme='light
 
 /* Shared shell and reusable glass primitives. */
 .global-app-shell { position: relative; min-height: 100vh; color: var(--foreground); background: var(--background); }
+.global-app-shell.app-theme-aurora { --background: #eef8fb; --foreground: #123047; --muted-foreground: #527084; --primary: #168aad; --primary-glow: rgba(22,138,173,.18); --glass-background: rgba(255,255,255,.7); --glass-background-hover: rgba(255,255,255,.84); --glass-border: rgba(32,141,181,.22); --glass-shadow: 0 22px 60px rgba(34,116,150,.14); }
+.global-app-shell.app-theme-minimal { --background: #f8fafc; --foreground: #1e293b; --muted-foreground: #64748b; --primary: #334155; --primary-glow: rgba(51,65,85,.14); --glass-background: rgba(255,255,255,.86); --glass-background-hover: #fff; --glass-border: rgba(71,85,105,.18); --glass-shadow: 0 18px 50px rgba(30,41,59,.08); }
+.global-app-shell.app-theme-noir { --background: #090b10; --foreground: #f8fafc; --muted-foreground: #a8b1bf; --primary: #f8fafc; --primary-glow: rgba(248,250,252,.16); --glass-background: rgba(255,255,255,.08); --glass-background-hover: rgba(255,255,255,.14); --glass-border: rgba(226,232,240,.2); --glass-shadow: 0 24px 70px rgba(0,0,0,.32); }
+.global-app-shell.app-theme-candy { --background: #fff1f8; --foreground: #6b214f; --muted-foreground: #9f527d; --primary: #db2777; --primary-glow: rgba(219,39,119,.16); --glass-background: rgba(255,255,255,.7); --glass-background-hover: rgba(255,255,255,.86); --glass-border: rgba(236,72,153,.2); --glass-shadow: 0 22px 60px rgba(236,72,153,.14); }
+.global-app-shell.app-theme-editorial { --background: #fff8ed; --foreground: #492c20; --muted-foreground: #89604d; --primary: #b45309; --primary-glow: rgba(180,83,9,.15); --glass-background: rgba(255,255,255,.72); --glass-background-hover: #fff; --glass-border: rgba(180,83,9,.2); --glass-shadow: 0 22px 60px rgba(146,64,14,.12); }
+.global-app-shell.app-theme-ocean { --background: #eff8ff; --foreground: #123b5d; --muted-foreground: #4b7492; --primary: #0369a1; --primary-glow: rgba(3,105,161,.16); --glass-background: rgba(255,255,255,.7); --glass-background-hover: rgba(255,255,255,.86); --glass-border: rgba(14,116,144,.2); --glass-shadow: 0 22px 60px rgba(14,116,144,.14); }
+.global-app-shell.app-theme-sunset { --background: #fff4ed; --foreground: #642b25; --muted-foreground: #9b6257; --primary: #e11d48; --primary-glow: rgba(225,29,72,.16); --glass-background: rgba(255,255,255,.68); --glass-background-hover: rgba(255,255,255,.84); --glass-border: rgba(225,29,72,.2); --glass-shadow: 0 22px 60px rgba(225,29,72,.14); }
+.global-app-shell.app-theme-botanical { --background: #f4faef; --foreground: #21452f; --muted-foreground: #5f8269; --primary: #047857; --primary-glow: rgba(4,120,87,.15); --glass-background: rgba(255,255,255,.7); --glass-background-hover: rgba(255,255,255,.86); --glass-border: rgba(4,120,87,.2); --glass-shadow: 0 22px 60px rgba(4,120,87,.13); }
+.global-app-shell.app-theme-mono { --background: #111; --foreground: #fff; --muted-foreground: #aaa; --primary: #fff; --primary-glow: rgba(255,255,255,.16); --glass-background: rgba(255,255,255,.08); --glass-background-hover: rgba(255,255,255,.14); --glass-border: rgba(255,255,255,.2); --glass-shadow: 0 24px 70px rgba(0,0,0,.3); }
+.global-app-shell.app-theme-playful { --background: #faf5ff; --foreground: #4c1d95; --muted-foreground: #805f9f; --primary: #9333ea; --primary-glow: rgba(147,51,234,.16); --glass-background: rgba(255,255,255,.7); --glass-background-hover: rgba(255,255,255,.86); --glass-border: rgba(126,34,206,.2); --glass-shadow: 0 22px 60px rgba(126,34,206,.14); }
+.global-app-shell[class*="app-theme-"] { --color-primary: var(--primary); --color-primary-hover: var(--primary); --color-line: var(--glass-border); }
+.global-app-shell.app-theme-noir, .global-app-shell.app-theme-mono { --theme-on-primary: #111; }
+.global-app-shell[class*="app-theme-"]:not(.app-theme-noir):not(.app-theme-mono) { --theme-on-primary: #fff; }
+.global-app-shell[class*="app-theme-"] .global-app-content > main:not(.store-theme) { color: var(--foreground) !important; background: var(--background) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content > div[class*="min-h-screen"] { color: var(--foreground) !important; background: var(--background) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content [class*="text-slate-900"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="text-slate-800"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="text-slate-700"] { color: var(--foreground) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content [class*="text-slate-600"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="text-slate-500"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="text-slate-400"] { color: var(--muted-foreground) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content [class*="border-slate-"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="border-[#"] { border-color: var(--glass-border) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content aside { border-color: var(--glass-border) !important; background: var(--glass-background) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content nav a { color: var(--muted-foreground); }
+.global-app-shell[class*="app-theme-"] .global-app-content nav a:hover { color: var(--foreground); background: var(--glass-background-hover); }
+.global-app-shell[class*="app-theme-"] .global-app-content [class*="bg-slate-900"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="bg-[#1E3A8A]"], .global-app-shell[class*="app-theme-"] .global-app-content [class*="bg-[#0F172A]"] { color: var(--theme-on-primary) !important; background: var(--primary) !important; }
+.global-app-shell[class*="app-theme-"] .global-app-content input:not([type="checkbox"]):not([type="radio"]), .global-app-shell[class*="app-theme-"] .global-app-content select, .global-app-shell[class*="app-theme-"] .global-app-content textarea { color: var(--foreground) !important; border-color: var(--glass-border) !important; background: var(--glass-background) !important; }
 .global-ambient { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: radial-gradient(circle at 8% 12%, rgba(168,140,255,.18), transparent 25%), radial-gradient(circle at 92% 20%, rgba(109,66,245,.12), transparent 27%), var(--background); }
 .global-ambient::after { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,.06), transparent 35%, rgba(168,140,255,.05)); content: ''; animation: ambientLight 26s ease-in-out infinite alternate; }
 .ambient-orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .34; }
@@ -395,11 +418,18 @@ body[data-theme='light'] .modern-surface .text-slate-400, body[data-theme='light
 .premium-landing .premium-logo { display: inline-flex; align-items: center; gap: 9px; color: #0b0820; font-family: 'Space Grotesk', sans-serif; font-size: 1.28rem; font-weight: 700; letter-spacing: -.06em; }
 .linkpay-logo { display: block; width: 148px; height: 50px; object-fit: contain; }
 .linkpay-logo-light { filter: drop-shadow(0 4px 12px rgba(111,177,252,.16)); }
+.linkpay-logo { transition: filter 180ms ease, transform 180ms ease; }
+.linkpay-logo:hover { filter: drop-shadow(0 0 5px rgba(94,231,244,.78)) drop-shadow(0 0 15px rgba(109,66,245,.5)); transform: translateY(-1px); }
+.modern-logo { transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease; }
+.modern-logo:hover { text-shadow: 0 0 8px rgba(94,231,244,.85), 0 0 18px rgba(109,66,245,.55); transform: translateY(-1px); }
 .premium-landing a.premium-logo[href="/"] { width: auto; height: auto; overflow: visible; background: none; font-size: 1.28rem !important; line-height: normal; }
+.premium-landing a.premium-logo[href="/"], .premium-landing a.premium-logo[href="/"]:hover { background: transparent !important; background-image: none !important; }
 .premium-landing a.premium-logo[href="/"] > img { display: block; }
 .premium-landing .premium-logo-mark { display: grid; width: 31px; height: 31px; place-items: center; border-radius: 10px; color: white; background: linear-gradient(135deg, #261653, #a88cff); box-shadow: 0 8px 18px rgba(109,66,245,.2); }
 .premium-landing .premium-logo-dot { color: #8d68ff; }
+.premium-landing .premium-nav > .premium-container { height: 68px; }
 .premium-landing .premium-link { color: #6b6878; font-size: .875rem; font-weight: 600; transition: color 180ms ease; }
+.premium-landing .premium-nav-links .premium-link, .premium-landing .premium-nav-links .premium-link:hover, .premium-landing .premium-nav-links .premium-link:focus, .premium-landing .premium-nav-links .premium-link:active, .premium-landing .premium-nav-mobile .premium-link, .premium-landing .premium-nav-mobile .premium-link:hover { background: transparent !important; background-color: transparent !important; }
 .premium-landing .premium-link:hover { color: #6d42f5; }
 .premium-landing .premium-pill { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #ded6ff; border-radius: 999px; padding: 8px 13px; color: #6540d6; background: rgba(255,255,255,.72); font-size: .72rem; font-weight: 700; }
 .premium-landing .premium-pill::before { width: 7px; height: 7px; border-radius: 50%; background: #9b7cff; box-shadow: 0 0 0 5px #ebe5ff; content: ''; }
@@ -492,6 +522,31 @@ body[data-theme='dark'] main.flex.min-h-screen.items-center.justify-center { bac
 .store-theme::before { position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at 88% 5%, rgba(109,66,245,.16), transparent 28%), radial-gradient(circle at 5% 42%, rgba(168,140,255,.12), transparent 25%); content: ''; pointer-events: none; }
 .store-theme .store-product { border-color: var(--market-line); background: var(--market-glass); box-shadow: var(--market-shadow); backdrop-filter: blur(18px); transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
 .store-theme .store-product:hover { border-color: rgba(109,66,245,.42); box-shadow: 0 25px 60px rgba(53,35,110,.16); transform: translateY(-5px); }
+.store-theme.store-theme-aurora { background: radial-gradient(circle at top right,rgba(94,231,244,.28),transparent 35%),#eef8fb; }
+.store-theme.store-theme-minimal { background: #f8fafc; }
+.store-theme.store-theme-noir { color: #f8fafc; background: radial-gradient(circle at top right,rgba(148,163,184,.18),transparent 35%),#090b10; }
+.store-theme.store-theme-candy { background: radial-gradient(circle at top right,rgba(244,114,182,.24),transparent 35%),#fff1f8; }
+.store-theme.store-theme-editorial { background: #fff8ed; }
+.store-theme.store-theme-ocean { background: radial-gradient(circle at top right,rgba(56,189,248,.25),transparent 35%),#eff8ff; }
+.store-theme.store-theme-sunset { background: radial-gradient(circle at top right,rgba(251,113,133,.25),transparent 35%),#fff4ed; }
+.store-theme.store-theme-botanical { background: radial-gradient(circle at top right,rgba(74,222,128,.22),transparent 35%),#f4faef; }
+.store-theme.store-theme-mono { color: #fff; background: #111; }
+.store-theme.store-theme-playful { background: radial-gradient(circle at top right,rgba(217,70,239,.2),transparent 35%),#faf5ff; }
+.store-theme.store-theme-aurora { --store-ink: #123047; --store-line: rgba(32,141,181,.22); --store-surface: rgba(255,255,255,.7); --store-shadow: 0 22px 60px rgba(34,116,150,.14); --store-accent: #168aad; --store-button-ink: #fff; }
+.store-theme.store-theme-minimal { --store-ink: #1e293b; --store-line: rgba(71,85,105,.18); --store-surface: rgba(255,255,255,.86); --store-shadow: 0 18px 50px rgba(30,41,59,.08); --store-accent: #334155; --store-button-ink: #fff; }
+.store-theme.store-theme-noir { --store-ink: #f8fafc; --store-line: rgba(226,232,240,.2); --store-surface: rgba(255,255,255,.08); --store-shadow: 0 24px 70px rgba(0,0,0,.32); --store-accent: #f8fafc; --store-button-ink: #090b10; }
+.store-theme.store-theme-candy { --store-ink: #6b214f; --store-line: rgba(236,72,153,.2); --store-surface: rgba(255,255,255,.7); --store-shadow: 0 22px 60px rgba(236,72,153,.14); --store-accent: #db2777; --store-button-ink: #fff; }
+.store-theme.store-theme-editorial { --store-ink: #492c20; --store-line: rgba(180,83,9,.2); --store-surface: rgba(255,255,255,.72); --store-shadow: 0 22px 60px rgba(146,64,14,.12); --store-accent: #b45309; --store-button-ink: #fff; }
+.store-theme.store-theme-ocean { --store-ink: #123b5d; --store-line: rgba(14,116,144,.2); --store-surface: rgba(255,255,255,.7); --store-shadow: 0 22px 60px rgba(14,116,144,.14); --store-accent: #0369a1; --store-button-ink: #fff; }
+.store-theme.store-theme-sunset { --store-ink: #642b25; --store-line: rgba(225,29,72,.2); --store-surface: rgba(255,255,255,.68); --store-shadow: 0 22px 60px rgba(225,29,72,.14); --store-accent: #e11d48; --store-button-ink: #fff; }
+.store-theme.store-theme-botanical { --store-ink: #21452f; --store-line: rgba(4,120,87,.2); --store-surface: rgba(255,255,255,.7); --store-shadow: 0 22px 60px rgba(4,120,87,.13); --store-accent: #047857; --store-button-ink: #fff; }
+.store-theme.store-theme-mono { --store-ink: #fff; --store-line: rgba(255,255,255,.2); --store-surface: rgba(255,255,255,.08); --store-shadow: 0 24px 70px rgba(0,0,0,.3); --store-accent: #fff; --store-button-ink: #111; }
+.store-theme.store-theme-playful { --store-ink: #4c1d95; --store-line: rgba(126,34,206,.2); --store-surface: rgba(255,255,255,.7); --store-shadow: 0 22px 60px rgba(126,34,206,.14); --store-accent: #9333ea; --store-button-ink: #fff; }
+.store-theme { color: var(--store-ink, #0f172a) !important; }
+.store-theme header { border-color: var(--store-line) !important; }
+.store-theme .store-product { border-color: var(--store-line); background: var(--store-surface); box-shadow: var(--store-shadow); }
+.store-theme .store-product a { background: var(--store-accent); color: var(--store-button-ink); }
+.global-app-content form.max-w-3xl > div.mt-8 { display: none; }
 
 /* The landing page keeps its structure in dark mode and changes only its atmosphere. */
 :root[data-theme='dark'] .premium-landing { color: #f4f1ff; background: #050816; }

@@ -6,6 +6,11 @@ function serialize(merchant) {
   return {
     id: merchant._id,
     email: merchant.email,
+    firstName: merchant.firstName || '',
+    surname: merchant.surname || '',
+    dateOfBirth: merchant.dateOfBirth || '',
+    gender: merchant.gender || '',
+    phone: merchant.phone || '',
     businessName: merchant.businessName,
     phone: merchant.phone,
     logoUrl: merchant.logoUrl,
@@ -47,7 +52,7 @@ async function getMe(req, res) {
 
 async function updateStore(req, res) {
   // Allow merchants to update store basic info plus contactDetails, socialHandles and optional socialConnections (tokens)
-  const { businessName, storeName, slug, storeSlug, description, logoUrl, storeTheme, paystackPublicKey, contactDetails, socialHandles, socialConnections, customDomain, metaPixelId, tiktokPixelId, googleAnalyticsId } = req.body;
+  const { businessName, storeName, slug, storeSlug, description, logoUrl, storeTheme, paystackPublicKey, contactDetails, socialHandles, socialConnections, customDomain, metaPixelId, tiktokPixelId, googleAnalyticsId, firstName, surname, dateOfBirth, gender, phone } = req.body;
 
   const updates = {};
   const tier = req.merchant.subscriptionTier || 'free';
@@ -68,6 +73,11 @@ async function updateStore(req, res) {
   if (metaPixelId !== undefined) updates.metaPixelId = metaPixelId.trim();
   if (tiktokPixelId !== undefined) updates.tiktokPixelId = tiktokPixelId.trim();
   if (googleAnalyticsId !== undefined) updates.googleAnalyticsId = googleAnalyticsId.trim();
+  if (firstName !== undefined) updates.firstName = String(firstName).trim();
+  if (surname !== undefined) updates.surname = String(surname).trim();
+  if (dateOfBirth !== undefined) updates.dateOfBirth = String(dateOfBirth).trim();
+  if (gender !== undefined) updates.gender = String(gender).trim();
+  if (phone !== undefined) updates.phone = String(phone).trim();
 
   try {
     // If metaAccessToken provided, only set the allowed connection fields
