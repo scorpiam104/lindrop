@@ -20,6 +20,7 @@ function serialize(merchant) {
     storeName: merchant.storeName || merchant.businessName,
     storeSlug: merchant.storeSlug || merchant.slug,
     description: merchant.description || '',
+    storeTheme: merchant.storeTheme || 'aurora',
     subscriptionTier: merchant.subscriptionTier || 'free',
     status: merchant.status || (merchant.isVerified ? 'active' : 'pending_kyc'),
     customDomain: merchant.customDomain || '',
@@ -46,7 +47,7 @@ async function getMe(req, res) {
 
 async function updateStore(req, res) {
   // Allow merchants to update store basic info plus contactDetails, socialHandles and optional socialConnections (tokens)
-  const { businessName, storeName, slug, storeSlug, description, logoUrl, paystackPublicKey, contactDetails, socialHandles, socialConnections, customDomain, metaPixelId, tiktokPixelId, googleAnalyticsId } = req.body;
+  const { businessName, storeName, slug, storeSlug, description, logoUrl, storeTheme, paystackPublicKey, contactDetails, socialHandles, socialConnections, customDomain, metaPixelId, tiktokPixelId, googleAnalyticsId } = req.body;
 
   const updates = {};
   const tier = req.merchant.subscriptionTier || 'free';
@@ -59,6 +60,7 @@ async function updateStore(req, res) {
   if (storeSlug !== undefined) updates.storeSlug = storeSlug?.toLowerCase().trim();
   if (description !== undefined) updates.description = description;
   if (logoUrl !== undefined) updates.logoUrl = logoUrl;
+  if (storeTheme !== undefined) updates.storeTheme = storeTheme;
   if (paystackPublicKey !== undefined) updates.paystackPublicKey = paystackPublicKey;
   if (contactDetails !== undefined) updates.contactDetails = contactDetails;
   if (socialHandles !== undefined) updates.socialHandles = socialHandles;
@@ -87,7 +89,7 @@ async function updateStore(req, res) {
 }
 
 async function getPublicStore(req, res) {
-  const merchant = await Merchant.findOneAndUpdate({ slug: req.params.storeSlug, isSuspended: false, isVerified: true }, { $inc: { totalViews: 1 } }, { new: true }).select('businessName logoUrl slug isVerified totalViews');
+  const merchant = await Merchant.findOneAndUpdate({ slug: req.params.storeSlug, isSuspended: false, isVerified: true }, { $inc: { totalViews: 1 } }, { new: true }).select('businessName storeName description logoUrl slug storeTheme isVerified totalViews');
   if (!merchant) return res.status(404).json({ message: 'Store not found.' });
   return res.json({ merchant: serialize(merchant) });
 }

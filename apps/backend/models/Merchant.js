@@ -9,6 +9,7 @@ const merchantSchema = new mongoose.Schema({
   storeSlug: { type: String, default: null, lowercase: true, trim: true, sparse: true, unique: true },
   description: { type: String, default: '' },
   bannerUrl: { type: String, default: '' },
+  storeTheme: { type: String, enum: ['aurora', 'minimal', 'noir', 'candy', 'editorial', 'ocean', 'sunset', 'botanical', 'mono', 'playful'], default: 'aurora' },
   phone: { type: String, default: '', trim: true },
   firstName: { type: String, default: '', trim: true },
   surname: { type: String, default: '', trim: true },

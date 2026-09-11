@@ -24,7 +24,7 @@ async function getStoreProducts(req, res) {
 
 async function getMarketplaceProducts(req, res) {
   const merchants = await Merchant.find({ isSuspended: false, isVerified: true, slug: { $nin: [null, ''] } })
-    .select('_id businessName storeName slug logoUrl')
+    .select('_id businessName storeName slug logoUrl storeTheme')
     .lean();
   const merchantById = new Map(merchants.map((merchant) => [String(merchant._id), merchant]));
   const products = await Product.find({ merchantId: { $in: merchants.map((merchant) => merchant._id) }, inventoryCount: { $gt: 0 } })
@@ -32,8 +32,7 @@ async function getMarketplaceProducts(req, res) {
     .limit(60)
     .lean();
 
-  return res.json({
-    products: products.map((product) => {
+  const productCards = products.map((product) => {
       const merchant = merchantById.get(String(product.merchantId));
       return {
         ...product,
@@ -41,7 +40,10 @@ async function getMarketplaceProducts(req, res) {
         storeSlug: merchant.slug,
         storeLogoUrl: merchant.logoUrl || ''
       };
-    })
+    });
+  return res.json({
+    products: productCards,
+    stores: merchants.map((merchant) => ({ ...merchant, storeName: merchant.storeName || merchant.businessName || 'Independent store', storeTheme: merchant.storeTheme || 'aurora', productCount: productCards.filter((product) => product.storeSlug === merchant.slug).length }))
   });
 }
 

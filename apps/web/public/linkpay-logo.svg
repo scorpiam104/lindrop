@@ -17,6 +17,6 @@
     <path d="M 45 110 C 70 110, 100 80, 120 40" fill="none" stroke="#6FB1FC" stroke-width="8" stroke-linecap="round" marker-end="url(#arrow)" />
   </g>
   <text x="180" y="115" font-family="Segoe UI,Arial,sans-serif" font-size="64" font-weight="800" fill="#0A2540" letter-spacing="-1">Link</text>
-  <text x="305" y="115" font-family="Segoe UI,Arial,sans-serif" font-size="64" font-weight="400" fill="url(#linkPayGrad)" letter-spacing="-1">Pay</text>
+  <text x="305" y="115" font-family="Segoe UI,Arial,sans-serif" font-size="64" font-weight="800" fill="url(#linkPayGrad)" letter-spacing="-1">Pay</text>
   <circle cx="422" cy="70" r="6" fill="#6FB1FC" />
 </svg>
