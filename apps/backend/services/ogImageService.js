@@ -1,5 +1,21 @@
 // OG Image Generation Service - Dynamic social card image rendering
-const { createCanvas } = require('canvas');
+let createCanvas = null;
+
+try {
+  ({ createCanvas } = require('@napi-rs/canvas'));
+} catch (error) {
+  try {
+    ({ createCanvas } = require('canvas'));
+  } catch (fallbackError) {
+    console.warn('Canvas package unavailable; OG image generation will be disabled until native deps are installed.', fallbackError.message);
+  }
+}
+
+function ensureCanvasAvailable() {
+  if (!createCanvas) {
+    throw new Error('Canvas library is unavailable. Install native image dependencies or disable OG image generation.');
+  }
+}
 
 /**
  * Generate dynamic OpenGraph image for product social cards
@@ -9,6 +25,7 @@ const { createCanvas } = require('canvas');
  */
 async function generateOGImage(product, merchant) {
   try {
+    ensureCanvasAvailable();
     const width = 1200;
     const height = 630;
     const canvas = createCanvas(width, height);
@@ -126,6 +143,7 @@ async function generateOGImage(product, merchant) {
  */
 async function generateThumbnail(product, merchant, size = 600) {
   try {
+    ensureCanvasAvailable();
     const canvas = createCanvas(size, size);
     const ctx = canvas.getContext('2d');
 

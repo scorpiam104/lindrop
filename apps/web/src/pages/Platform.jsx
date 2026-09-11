@@ -6,11 +6,12 @@ import { apiClient, formatGHS, validateGhanaPhone } from '@my-app/shared';
 import { apiCall, clearSession, getMerchant, saveSession } from '../lib/session';
 import { getOfflineQueueCount, queueOfflineSale, syncOfflineSalesToServer } from '../lib/offlinePos';
 import ProductShareModal from '../components/ProductShareModal';
+import { PercentageDonut } from '../components/AnalyticsCharts.jsx';
 
 const productImage = 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=85';
 
 function Field({ label, ...props }) { return <label className="block text-sm font-semibold text-slate-700">{label}<input {...props} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-900 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100" /></label>; }
-function Stat({ label, value }) { return <div className="rounded-2xl bg-white/90 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)] ring-1 ring-slate-100"><p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{label}</p><p className="mt-3 text-3xl font-black tracking-tight text-slate-900">{value}</p></div>; }
+function Stat({ label, value }) { const isPercentage = label === 'Conversion'; const numericValue = Number.parseFloat(value) || 0; return <div className={`rounded-2xl bg-white/90 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.06)] ring-1 ring-slate-100 ${isPercentage ? 'flex items-center justify-between gap-3' : ''}`}><div><p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{label}</p><p className="mt-3 text-3xl font-black tracking-tight text-slate-900">{value}</p></div>{isPercentage && <PercentageDonut value={numericValue} label="Conversion" color="#10B981" />}</div>; }
 
 function SocialButton({ provider, icon, onClick, loading }) {
   const palette = {

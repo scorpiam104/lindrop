@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Check, Facebook, Github, Mail } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiClient } from '@my-app/shared';
@@ -18,7 +18,22 @@ export default function SignupStepper() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(null);
-  const update = (key, value) => setForm((current) => ({ ...current, [key]: value }));
+  function normalizeName(value) {
+    const lettersOnly = value.replace(/[^a-zA-Z'-]/g, '');
+    return lettersOnly ? `${lettersOnly.charAt(0).toUpperCase()}${lettersOnly.slice(1)}` : '';
+  }
+  useEffect(() => {
+    const pendingSignup = sessionStorage.getItem('linkpay_pending_signup');
+    if (!pendingSignup) return;
+    try {
+      const credentials = JSON.parse(pendingSignup);
+      setForm((current) => ({ ...current, email: credentials.email || '', password: credentials.password || '', confirmPassword: credentials.confirmPassword || credentials.password || '' }));
+    } catch {
+      sessionStorage.removeItem('linkpay_pending_signup');
+    }
+    sessionStorage.removeItem('linkpay_pending_signup');
+  }, []);
+  const update = (key, value) => setForm((current) => ({ ...current, [key]: key === 'firstName' || key === 'surname' ? normalizeName(value) : value }));
 
   function validateStep() {
     if (step === 0 && (!form.firstName.trim() || !form.surname.trim())) return 'Enter your first and last name.';
@@ -36,7 +51,19 @@ export default function SignupStepper() {
   async function submit(event) {
     event.preventDefault(); const message = validateStep(); if (message) return setError(message);
     setLoading(true); setError('');
-    try { const { data } = await apiClient.post('/auth/register', form); saveSession(data); navigate('/dashboard'); } catch (requestError) { setError(requestError.response?.data?.message || 'Unable to create your account.'); } finally { setLoading(false); }
+    try { const { data } = await apiClient.post('/auth/register', form); saveSession(data); navigate('/profile'); } catch (requestError) {
+      const payload = requestError.response?.data || {};
+      if (payload.redirectToLogin) {
+        const email = payload.existingAccount?.email || form.email;
+        const shouldLogin = window.confirm(`An account already exists for ${email}. Do you want to sign in instead?`);
+        if (shouldLogin) {
+          sessionStorage.setItem('linkpay_pending_login', JSON.stringify({ email, password: form.password }));
+          navigate('/login');
+          return;
+        }
+      }
+      setError(payload.message || 'Unable to create your account.');
+    } finally { setLoading(false); }
   }
   function handleOAuth(provider) {
     setOauthLoading(provider);

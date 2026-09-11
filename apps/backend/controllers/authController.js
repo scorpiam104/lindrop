@@ -292,14 +292,42 @@ async function register(req, res) {
   if (password.length < 8) return res.status(400).json({ message: 'Password must be at least 8 characters.' });
   if (confirmPassword && password !== confirmPassword) return res.status(400).json({ message: 'Passwords do not match.' });
 
+  const normalizedEmail = String(email).trim().toLowerCase();
   const normalizedName = `${String(firstName).trim()} ${String(surname).trim()}`.trim();
   const businessName = normalizedName || 'LinkPay user';
-  const slug = buildSlug(businessName, `user-${Date.now()}`);
 
   try {
+    const existingMerchant = await Merchant.findOne({ email: normalizedEmail });
+
+    if (existingMerchant) {
+      return res.status(409).json({
+        message: 'That email or profile URL is already in use.',
+        redirectToLogin: true,
+        existingAccount: {
+          email: existingMerchant.email
+        }
+      });
+    }
+
+    const baseSlug = buildSlug(businessName, `user-${Date.now()}`);
+    let slug = baseSlug;
+    let slugSuffix = 1;
+    while (await Merchant.exists({ slug })) {
+      slug = `${baseSlug}-${slugSuffix}`;
+      slugSuffix += 1;
+    }
+
+    const baseStoreSlug = `${slug}-store`;
+    let storeSlug = baseStoreSlug;
+    let storeSlugSuffix = 1;
+    while (await Merchant.exists({ storeSlug })) {
+      storeSlug = `${baseStoreSlug}-${storeSlugSuffix}`;
+      storeSlugSuffix += 1;
+    }
+
     const passwordHash = await bcrypt.hash(password, 12);
     const merchant = await Merchant.create({
-      email,
+      email: normalizedEmail,
       passwordHash,
       businessName,
       phone: String(phoneNumber || '').trim(),
@@ -307,11 +335,23 @@ async function register(req, res) {
       surname: String(surname).trim(),
       dateOfBirth: String(dateOfBirth).trim(),
       gender: String(gender).trim(),
-      slug
+      slug,
+      storeSlug
     });
     return res.status(201).json({ token: createToken(merchant), merchant: publicMerchant(merchant) });
   } catch (error) {
-    if (error.code === 11000) return res.status(409).json({ message: 'That email or profile URL is already in use.' });
+    if (error.code === 11000) {
+      const duplicateField = Object.keys(error.keyPattern || {})[0];
+      const isEmailConflict = duplicateField === 'email';
+      return res.status(409).json({
+        message: isEmailConflict
+          ? 'This email is already in use.'
+          : 'This profile URL is already in use. Please try again.',
+        code: isEmailConflict ? 'EMAIL_EXISTS' : 'PROFILE_URL_EXISTS',
+        redirectToLogin: isEmailConflict,
+        existingAccount: isEmailConflict ? { email: normalizedEmail } : undefined
+      });
+    }
     console.error('Merchant registration failed:', error.message);
     return res.status(500).json({ message: 'Unable to create merchant account.' });
   }
@@ -319,8 +359,10 @@ async function register(req, res) {
 
 async function login(req, res) {
   const { email, password } = req.body;
-  const merchant = await Merchant.findOne({ email: String(email || '').toLowerCase() });
-  if (!merchant || !(await bcrypt.compare(password || '', merchant.passwordHash))) return res.status(401).json({ message: 'Invalid email or password.' });
+  const normalizedEmail = String(email || '').trim().toLowerCase();
+  const merchant = await Merchant.findOne({ email: normalizedEmail });
+  if (!merchant) return res.status(404).json({ message: 'This email does not exist,', code: 'EMAIL_NOT_FOUND', signupEmail: normalizedEmail });
+  if (!(await bcrypt.compare(String(password || ''), merchant.passwordHash))) return res.status(401).json({ message: 'The password is incorrect. Please try again.' });
   return res.json({ token: createToken(merchant), merchant: publicMerchant(merchant) });
 }
 
