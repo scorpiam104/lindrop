@@ -349,9 +349,8 @@ body[data-theme='light'] .modern-surface .text-slate-400, body[data-theme='light
 .auth-navbar-menu { display: none; color: var(--foreground); }
 .auth-navbar-mobile { display: none; }
 .auth-route-content { padding-top: 46px; }
-.auth-route-content main { padding-top: 24px !important; padding-bottom: 24px !important; }
-.auth-route-content main > section > a[href="/"] { display: none; }
-.auth-route-content main > section > div { margin-top: 0 !important; padding: 1.25rem !important; }
+.auth-route-content main { padding-top: 32px !important; padding-bottom: 32px !important; }
+.auth-route-content main > section > div { margin-top: 24px !important; padding: 1.5rem !important; }
 @media (max-width: 767px) {
   .auth-navbar-inner { width: min(100% - 32px, 1240px); height: 42px; }
   .auth-navbar-links, .auth-navbar-signin, .auth-navbar-cta { display: none; }
@@ -359,7 +358,7 @@ body[data-theme='light'] .modern-surface .text-slate-400, body[data-theme='light
   .auth-navbar-mobile { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--glass-border); padding: 16px max(16px, calc((100% - 1240px) / 2)); background: var(--glass-background-hover); backdrop-filter: blur(var(--glass-blur)); }
   .auth-navbar-mobile a { display: flex; align-items: center; justify-content: space-between; color: var(--foreground); font-size: .9rem; font-weight: 700; }
   .auth-route-content { padding-top: 42px; }
-  .auth-route-content main { padding-top: 16px !important; padding-bottom: 16px !important; }
+  .auth-route-content main { padding-top: 24px !important; padding-bottom: 24px !important; }
 }
 
 /* Existing marketplace, dashboard, admin, checkout, and modal cards inherit the global material. */
