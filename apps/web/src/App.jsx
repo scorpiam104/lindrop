@@ -1,26 +1,32 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
-import AdminDashboard from './components/AdminDashboard.jsx';
-import MerchantAnalyticsSettings from './components/MerchantAnalyticsSettings.jsx';
-import SignupStepper from './components/SignupStepper.jsx';
-import SignInPage from './components/SignInPage.jsx';
-import UserProfile from './components/UserProfile.jsx';
-import ModernLanding from './components/ModernLanding.jsx';
 import { ThemeProvider } from './components/ThemeProvider.jsx';
-import SuggestionsMarketplace from './components/SuggestionsMarketplace.jsx';
-import ThemedStoreFront from './components/ThemedStoreFront.jsx';
 import ThemeToggle from './components/ThemeToggle.jsx';
 import PremiumLanding from './components/PremiumLanding.jsx';
 import GlobalAppShell from './components/GlobalAppShell.jsx';
-import AdminAnalyticsDashboard from './components/AdminAnalyticsDashboard.jsx';
-import MerchantDashboard from './components/MerchantDashboard.jsx';
-import { AdminMerchants, AdminOverview, AuthPage, DynamicCheckout, Landing, Orders, Overview, Products, ProfilePage, Storefront, StoreSetup } from './pages/Platform.jsx';
+const SignupStepper = lazy(() => import('./components/SignupStepper.jsx'));
+const SignInPage = lazy(() => import('./components/SignInPage.jsx'));
+const UserProfile = lazy(() => import('./components/UserProfile.jsx'));
+const SuggestionsMarketplace = lazy(() => import('./components/SuggestionsMarketplace.jsx'));
+const ThemedStoreFront = lazy(() => import('./components/ThemedStoreFront.jsx'));
+const lazyPlatform = (name) => lazy(() => import('./pages/Platform.jsx').then((module) => ({ default: module[name] })));
+const AdminMerchants = lazyPlatform('AdminMerchants');
+const DynamicCheckout = lazyPlatform('DynamicCheckout');
+const Orders = lazyPlatform('Orders');
+const Overview = lazyPlatform('Overview');
+const Products = lazyPlatform('Products');
+const StoreSetup = lazyPlatform('StoreSetup');
+const AdminAnalyticsDashboard = lazy(() => import('./components/AdminAnalyticsDashboard.jsx'));
+const MerchantDashboard = lazy(() => import('./components/MerchantDashboard.jsx'));
+const MerchantAnalyticsSettings = lazy(() => import('./components/MerchantAnalyticsSettings.jsx'));
 
 function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
         <GlobalAppShell>
+          <Suspense fallback={<div className="route-loading" role="status">Loading...</div>}>
           <Routes>
         <Route path="/" element={<PremiumLanding />} />
         <Route path="/login" element={<SignInPage />} />
@@ -43,6 +49,7 @@ function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </Suspense>
         </GlobalAppShell>
         <div className="fixed bottom-5 right-5 z-50"><ThemeToggle /></div>
       </BrowserRouter>

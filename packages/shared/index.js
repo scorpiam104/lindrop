@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const runtimeEnv = typeof process !== 'undefined' ? process.env || {} : {};
-const apiBaseUrl = runtimeEnv.EXPO_PUBLIC_API_URL
+const browserApiUrl = typeof globalThis !== 'undefined' ? globalThis.__LINKPAY_API_URL__ : '';
+const apiBaseUrl = browserApiUrl
+  || runtimeEnv.EXPO_PUBLIC_API_URL
   || runtimeEnv.VITE_API_URL
   || runtimeEnv.API_URL
   || 'http://localhost:5000/api';

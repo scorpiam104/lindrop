@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { apiCall } from '../../lib/session';
 
 export default function ReelGenerator({ product }) {
   const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState(null);
   const [status, setStatus] = useState(null);
   const [resultUrl, setResultUrl] = useState(null);
+  const intervalRef = useRef(null);
+
+  useEffect(() => () => clearInterval(intervalRef.current), []);
 
   async function startReel() {
     try {
       setLoading(true);
       setStatus('starting');
-      const res = await fetch('/api/ai/reels/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-        body: JSON.stringify({ productId: product?._id, style: 'shopify', duration: 15 }),
-      });
-      if (!res.ok) throw new Error('Failed to start reel job');
-      const data = await res.json();
+      const { data } = await apiCall('post', '/ai/reels/generate', { productId: product?._id, style: 'shopify', duration: 15 });
       setJobId(data.jobId);
       pollStatus(data.jobId);
     } catch (err) {
@@ -29,18 +27,17 @@ export default function ReelGenerator({ product }) {
 
   async function pollStatus(id) {
     setStatus('processing');
-    const interval = setInterval(async () => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(async () => {
       try {
-        const res = await fetch(`/api/ai/reels/status/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-        if (!res.ok) throw new Error('Status fetch failed');
-        const data = await res.json();
+        const { data } = await apiCall('get', `/ai/reels/status/${id}`);
         if (data.job && data.job.status === 'completed') {
-          clearInterval(interval);
+          clearInterval(intervalRef.current);
           setStatus('completed');
           setResultUrl(data.job.resultUrl || data.job.url || null);
         }
       } catch (err) {
-        clearInterval(interval);
+        clearInterval(intervalRef.current);
         setStatus('error');
       }
     }, 1500);

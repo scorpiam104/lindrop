@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { apiCall } from '../../lib/session';
 
 export default function MerchantSocialSettings() {
   const [loading, setLoading] = useState(true);
@@ -26,13 +27,12 @@ export default function MerchantSocialSettings() {
     let mounted = true;
     async function fetchProfile() {
       try {
-        const res = await fetch('/api/merchant/me', { credentials: 'include' });
-        if (!res.ok) throw new Error('Failed to load merchant profile');
-        const data = await res.json();
+        const { data } = await apiCall('get', '/merchants/me');
         if (!mounted) return;
-        const contact = data.contactDetails || {};
-        const social = data.socialHandles || {};
-        const connections = data.socialConnections || {};
+        const merchant = data.merchant || {};
+        const contact = merchant.contactDetails || {};
+        const social = merchant.socialHandles || {};
+        const connections = merchant.socialConnections || {};
 
         setForm({
           whatsappNumber: contact.whatsappNumber || '',
@@ -89,17 +89,7 @@ export default function MerchantSocialSettings() {
         ...(form.metaAccessToken ? { socialConnections: { metaAccessToken: form.metaAccessToken, facebookPageId: form.facebookPageId || null, instagramBusinessAccountId: form.instagramBusinessAccountId || null } } : {}),
       };
 
-      const res = await fetch('/api/merchant/me', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || 'Failed to save');
-      }
+      await apiCall('put', '/merchants/store', payload);
 
       setSuccess('Social settings saved');
       setForm(prev => ({ ...prev, metaAccessToken: '' }));

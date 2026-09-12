@@ -4,11 +4,7 @@ let createCanvas = null;
 try {
   ({ createCanvas } = require('@napi-rs/canvas'));
 } catch (error) {
-  try {
-    ({ createCanvas } = require('canvas'));
-  } catch (fallbackError) {
-    console.warn('Canvas package unavailable; OG image generation will be disabled until native deps are installed.', fallbackError.message);
-  }
+  console.warn('Canvas package unavailable; OG image generation is disabled.', error.message);
 }
 
 function ensureCanvasAvailable() {

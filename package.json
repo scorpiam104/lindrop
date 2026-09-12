@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n backend,web,mobile \"npm run dev:backend\" \"npm run dev:web\" \"npm run dev:mobile\"",
+    "dev": "concurrently -n backend,web \"npm run dev:backend\" \"npm run dev:web\"",
+    "dev:all": "concurrently -n backend,web,mobile \"npm run dev:backend\" \"npm run dev:web\" \"npm run dev:mobile\"",
     "dev:backend": "npm --prefix apps/backend run dev",
     "dev:web": "npm --prefix apps/web run dev",
     "dev:mobile": "npm --prefix apps/mobile run dev",

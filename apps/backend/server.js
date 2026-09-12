@@ -29,6 +29,7 @@ const { startRecoveryScheduler } = require('./jobs/recoveryScheduler');
 const app = express();
 const port = process.env.PORT || 5000;
 let databaseReady = false;
+let recoverySchedulerStarted = false;
 
 app.use(cors());
 app.use(helmet());
@@ -87,6 +88,10 @@ async function connectDatabase() {
     await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 10000 });
     databaseReady = true;
     console.log('Connected to MongoDB');
+    if (!recoverySchedulerStarted) {
+      startRecoveryScheduler();
+      recoverySchedulerStarted = true;
+    }
   } catch (error) {
     databaseReady = false;
     console.error(`MongoDB unavailable: ${error.message}`);
@@ -97,7 +102,6 @@ async function connectDatabase() {
 app.listen(port, () => {
   console.log(`API server running on port ${port}`);
   connectDatabase();
-  startRecoveryScheduler();
 });
 
 module.exports = app;
